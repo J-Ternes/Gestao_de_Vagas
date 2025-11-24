@@ -3,8 +3,10 @@ package com.jonathan.Gestao_Vagas.modules.candidates.controllers;
 
 import com.jonathan.Gestao_Vagas.exceptions.UserFoundException;
 import com.jonathan.Gestao_Vagas.modules.candidates.CandidateEntity;
+import com.jonathan.Gestao_Vagas.modules.candidates.useCases.CreateCandidateUseCase;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,18 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/candidate")
 public class CandidateController {
 //O @Valid faz com que as informações do candidato sejam validadas.
+    @Autowired
+    private CreateCandidateUseCase createCandidateUseCase;
+        @PostMapping("/")
+        public ResponseEntity<Object> create(@Valid @RequestBody CandidateEntity candidateEntity) {
+            try {
+               var result = this.createCandidateUseCase.execute(candidateEntity);
+               return ResponseEntity.ok().body(result);
 
-    @Autowired //Essa anotation faz com que o Spring gerencie
-    private CandidateRepository candidateRepository;
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body(e.getMessage());
 
-    @PostMapping("/")
-    public CandidateEntity create(@Valid @RequestBody CandidateEntity candidateEntity){
-        this.candidateRepository.findByUsernameOrEmail(candidateEntity.getUsername(), candidateEntity.getEmail())
-                .ifPresent((user) ->{
-                    throw new UserFoundException();
+            }
+        }
 
-                } );
-        return this.candidateRepository.save(candidateEntity);
     }
 
-}
+
