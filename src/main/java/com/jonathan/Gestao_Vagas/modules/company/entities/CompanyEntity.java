@@ -21,8 +21,8 @@ public class CompanyEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
-    @Pattern(regexp = "\\$+", message = "O campo não deve conter espaço")
+
+    @Pattern(regexp = "\\S+", message = "O campo não deve conter espaço")
     private String username;
 
     @Email(message = "O campo deve conter um email válido")

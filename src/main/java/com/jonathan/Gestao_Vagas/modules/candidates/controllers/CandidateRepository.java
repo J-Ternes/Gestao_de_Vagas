@@ -1,6 +1,6 @@
 package com.jonathan.Gestao_Vagas.modules.candidates.controllers;
 
-import com.jonathan.Gestao_Vagas.modules.candidates.CandidateEntity;
+import com.jonathan.Gestao_Vagas.modules.candidates.entities.CandidateEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

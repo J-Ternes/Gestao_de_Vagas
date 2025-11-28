@@ -1,7 +1,7 @@
 package com.jonathan.Gestao_Vagas.modules.candidates.useCases;
 
 import com.jonathan.Gestao_Vagas.exceptions.UserFoundException;
-import com.jonathan.Gestao_Vagas.modules.candidates.CandidateEntity;
+import com.jonathan.Gestao_Vagas.modules.candidates.entities.CandidateEntity;
 import com.jonathan.Gestao_Vagas.modules.candidates.controllers.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
