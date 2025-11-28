@@ -1,6 +1,8 @@
 package com.jonathan.Gestao_Vagas.modules.company.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -17,14 +19,17 @@ public class JobEntity {
 
     private String description;
     private String beneficios;
+
+    @NotBlank(message = "Esse campo é obrigatório!")
     private String level;
 
     @ManyToOne() //Tipo de relacionamento: Muitos Jobs para uma empresa
     @JoinColumn(name = "company_id", insertable = false, updatable = false) //Chave estrangeira
     private CompanyEntity companyEntity;
 
-    @Column(name = "company_id")
-    private UUID companyid;
+   @NotNull
+   @Column(name = "company_id")
+    private UUID companyId;
 
     @CreationTimestamp
     private LocalDateTime createdAT;
