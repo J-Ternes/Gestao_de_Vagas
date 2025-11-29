@@ -11,7 +11,12 @@ public class SecurityConfig {
     @Bean
         //Sobrescreve o metodo que ja existe na camada original por esse
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.csrf(csrf -> csrf.disable());
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth ->{
+                    auth.requestMatchers("/candidate/").permitAll() //Permite autorização total nessa rota
+                            .requestMatchers("/company/").permitAll(); //Permite autorização total nessa rota
+                    auth.anyRequest().authenticated(); //Qualquer outra rota, exceto a de cima, precisa de autenticação
+                });
         return http.build();
     }
 }
