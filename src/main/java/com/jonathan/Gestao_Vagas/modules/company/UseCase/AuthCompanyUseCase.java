@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
+import java.time.Duration;
+import java.time.Instant;
 
 
 @Service
@@ -39,7 +41,8 @@ public class AuthCompanyUseCase {
      }
      //Se for igual -> Gerar o token
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        var token = JWT.create().withIssuer("javagas").withSubject(company.getId().toString()).sign(algorithm);
+        var token = JWT.create().withIssuer("javagas").withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
+                .withSubject(company.getId().toString()).sign(algorithm);
         return token;
     }
 }

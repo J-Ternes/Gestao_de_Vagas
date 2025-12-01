@@ -27,7 +27,7 @@ public class JobEntity {
     @JoinColumn(name = "company_id", insertable = false, updatable = false) //Chave estrangeira
     private CompanyEntity companyEntity;
 
-   @NotNull
+
    @Column(name = "company_id")
     private UUID companyId;
 
