@@ -22,7 +22,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/candidate/").permitAll() //Permite autorização total nessa rota
                             .requestMatchers("/company/").permitAll()
                             .requestMatchers("/auth/company").permitAll(); //Permite autorização total nessa rota
-                    auth.anyRequest().authenticated(); //Qualquer outra rota, exceto a de cima, precisa de autenticação
+                    auth.anyRequest().authenticated(); //Qualquer outra rota, exceto as de cima, precisa de autenticação
                 }).addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
         return http.build();
     }
