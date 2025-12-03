@@ -21,7 +21,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->{
                     auth.requestMatchers("/candidate/").permitAll() //Permite autorização total nessa rota
                             .requestMatchers("/company/").permitAll()
-                            .requestMatchers("/auth/company").permitAll(); //Permite autorização total nessa rota
+                            .requestMatchers("/auth/company").permitAll() //Permite autorização total nessa rota
+                            .requestMatchers("/candidate/auth").permitAll();
                     auth.anyRequest().authenticated(); //Qualquer outra rota, exceto as de cima, precisa de autenticação
                 }).addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
         return http.build();
