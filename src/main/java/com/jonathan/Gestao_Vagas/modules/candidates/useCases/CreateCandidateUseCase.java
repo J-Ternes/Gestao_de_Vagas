@@ -4,6 +4,7 @@ import com.jonathan.Gestao_Vagas.exceptions.UserFoundException;
 import com.jonathan.Gestao_Vagas.modules.candidates.entities.CandidateEntity;
 import com.jonathan.Gestao_Vagas.modules.candidates.controllers.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service //Significa que é a camada de serviço, regra de negocio
@@ -11,12 +12,18 @@ public class CreateCandidateUseCase {
     @Autowired //Essa anotation faz com que o Spring gerencie
     private CandidateRepository candidateRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder; //Criptografando
+
     public CandidateEntity execute (CandidateEntity candidateEntity){
         this.candidateRepository.findByUsernameOrEmail(candidateEntity.getUsername(), candidateEntity.getEmail())
                 .ifPresent((user) -> {
                     throw new UserFoundException();
 
                 });
+
+        var password = passwordEncoder.encode(candidateEntity.getPassword()); //Criptografando senha
+        candidateEntity.setPassword(password);
         return this.candidateRepository.save(candidateEntity);
     }
 
