@@ -12,19 +12,25 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration //Spring irá gerenciar essa classe de configuração
 
 public class SecurityConfig {
+
     @Autowired
     private SecurityFilter securityFilter;
 
+    @Autowired
+    private SecurityCandidateFilter securityCandidateFilter;
     @Bean//Sobrescreve o metodo que ja existe na camada original por esse
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth ->{
                     auth.requestMatchers("/candidate/").permitAll() //Permite autorização total nessa rota
                             .requestMatchers("/company/").permitAll()
-                            .requestMatchers("/auth/company").permitAll() //Permite autorização total nessa rota
+                            .requestMatchers("/company/auth").permitAll() //Permite autorização total nessa rota
                             .requestMatchers("/candidate/auth").permitAll();
                     auth.anyRequest().authenticated(); //Qualquer outra rota, exceto as de cima, precisa de autenticação
-                }).addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
+                }).addFilterBefore(securityCandidateFilter,BasicAuthenticationFilter.class)
+                .addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
+
+
         return http.build();
     }
 
