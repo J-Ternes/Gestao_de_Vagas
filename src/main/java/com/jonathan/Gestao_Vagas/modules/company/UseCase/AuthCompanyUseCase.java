@@ -3,6 +3,7 @@ package com.jonathan.Gestao_Vagas.modules.company.UseCase;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.jonathan.Gestao_Vagas.modules.company.dto.AuthCompanyDTO;
+import com.jonathan.Gestao_Vagas.modules.company.dto.AuthResponseCompanyDTO;
 import com.jonathan.Gestao_Vagas.modules.company.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,13 +14,14 @@ import org.springframework.stereotype.Service;
 import javax.naming.AuthenticationException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 
 
 @Service
 public class AuthCompanyUseCase {
 
-    @Value("${security.token.secret}")
-    private String secretKey;
+        @Value("${security.token.secret}")
+        private String secretKey;
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -27,7 +29,7 @@ public class AuthCompanyUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
+    public AuthResponseCompanyDTO execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
 
         var company = this.companyRepository.findByUsername(authCompanyDTO.getUsername()).orElseThrow(
                 () ->{
@@ -41,8 +43,19 @@ public class AuthCompanyUseCase {
      }
      //Se for igual -> Gerar o token
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
+
+        var expireIn = Instant.now().plus(Duration.ofHours(2)); //Expiração do token
         var token = JWT.create().withIssuer("javagas") //withExpiresAt(Instant.now().plus(Duration.ofHours(2))) -> token Expira
-                .withSubject(company.getId().toString()).sign(algorithm);
-        return token;
+                .withSubject(company.getId().toString())
+                .withExpiresAt(expireIn)
+                .withClaim("roles", Arrays.asList("COMPANY"))
+                .sign(algorithm);
+
+        var authCompanyResponseDTO = AuthResponseCompanyDTO.builder()
+                                     .access_token(token)
+                                     .expires_in(expireIn.toEpochMilli())
+                                    .build();
+
+        return authCompanyResponseDTO;
     }
 }
