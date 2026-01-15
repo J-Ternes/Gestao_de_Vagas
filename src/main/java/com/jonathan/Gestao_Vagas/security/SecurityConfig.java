@@ -20,6 +20,14 @@ public class SecurityConfig {
 
     @Autowired
     private SecurityCandidateFilter securityCandidateFilter;
+
+    private static final String[] SWAGGER_LIST = {
+            "/swagger-ui/**", //O ** significa: Tudo o que vier depois do /swagger-ui
+            "/v3/api-docs/**",
+            "/swagger-resource/**"
+    };
+
+
     @Bean//Sobrescreve o metodo que ja existe na camada original por esse
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(csrf -> csrf.disable())
@@ -27,8 +35,10 @@ public class SecurityConfig {
                     auth.requestMatchers("/candidate/").permitAll() //Permite autorização total nessa rota
                             .requestMatchers("/company/").permitAll()
                             .requestMatchers("/company/auth").permitAll() //Permite autorização total nessa rota
-                            .requestMatchers("/candidate/auth").permitAll();
-                    auth.anyRequest().authenticated(); //Qualquer outra rota, exceto as de cima, precisa de autenticação
+                            .requestMatchers("/candidate/auth").permitAll()
+                            .requestMatchers(SWAGGER_LIST).permitAll();
+                            auth.anyRequest().authenticated(); //Qualquer outra rota, exceto as de cima, precisa de autenticação
+
                 }).addFilterBefore(securityCandidateFilter,BasicAuthenticationFilter.class)
                 .addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
 

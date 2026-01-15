@@ -19,7 +19,6 @@ public class CreateCandidateUseCase {
         this.candidateRepository.findByUsernameOrEmail(candidateEntity.getUsername(), candidateEntity.getEmail())
                 .ifPresent((user) -> {
                     throw new UserFoundException();
-
                 });
 
         var password = passwordEncoder.encode(candidateEntity.getPassword()); //Criptografando senha
