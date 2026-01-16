@@ -3,7 +3,9 @@ package com.jonathan.Gestao_Vagas.modules.candidates.controllers;
 
 import com.jonathan.Gestao_Vagas.modules.candidates.entities.CandidateEntity;
 import com.jonathan.Gestao_Vagas.modules.candidates.useCases.CreateCandidateUseCase;
+import com.jonathan.Gestao_Vagas.modules.candidates.useCases.ListAllJobsByFilterUseCase;
 import com.jonathan.Gestao_Vagas.modules.candidates.useCases.ProfileCandidateUseCase;
+import com.jonathan.Gestao_Vagas.modules.company.entities.JobEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController //Classes controladoras e todas as respostas sejam em JSON
@@ -22,6 +25,9 @@ public class CandidateController {
 
     @Autowired
     private ProfileCandidateUseCase profileCandidateUseCase;
+
+    @Autowired
+    private ListAllJobsByFilterUseCase listAllJobsByFilterUseCase;
 
         @PostMapping("/")
         public ResponseEntity<Object> create(@Valid @RequestBody CandidateEntity candidateEntity) {
@@ -48,6 +54,13 @@ public class CandidateController {
            }
 
         }
+
+        @GetMapping("/job")
+        @PreAuthorize("hasRole('CANDIDATE')")
+        public List<JobEntity> findJobNyFilter(@RequestParam String filter){
+            return this.listAllJobsByFilterUseCase.execute(filter);
+        }
+
 
     }
 
