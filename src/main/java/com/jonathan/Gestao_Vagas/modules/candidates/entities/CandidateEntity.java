@@ -1,5 +1,6 @@
 package com.jonathan.Gestao_Vagas.modules.candidates.entities;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,18 +22,24 @@ public class CandidateEntity {
     @GeneratedValue(strategy = GenerationType.UUID) //Cria o id automaticamente quando inserido um dado
     private UUID id;
 
+    @Schema(example = "Jonathan Gabriel", requiredMode = Schema.RequiredMode.REQUIRED, description = "Nome do candidato")
     private String name;
 
     @Pattern(regexp = "\\S+", message = "O campo do usarname não pode conter espaços.")
+    @Schema(example = "jonathan", requiredMode = Schema.RequiredMode.REQUIRED, description = "Username do candidato")
     private String username;
 
     @Email(message = "Favor, preencher o campo com um email válido.") //Essa anotation garante que o email seja no formato certo!
+    @Schema(example = "jonathan@gmail.com",requiredMode = Schema.RequiredMode.REQUIRED, description = "Email do candidato")
     private String email;
 
     @Length(min = 10, max = 100, message = "A senha deve conter entre 10 e 100 caracteres") //Restringe o tamanho do email
+    @Schema(example = "admin@1234", minLength = 10, maxLength = 100, requiredMode = Schema.RequiredMode.REQUIRED, description = "Senha do candidato")
     private String password;
 
     private String curriculum;
+
+    @Schema(example = "Desenvolvedor Java",requiredMode = Schema.RequiredMode.REQUIRED, description = "Descrição do candidato")
     private String description;
 
     @CreationTimestamp //pega a data e hora exata da criação do dado no banco de dados
