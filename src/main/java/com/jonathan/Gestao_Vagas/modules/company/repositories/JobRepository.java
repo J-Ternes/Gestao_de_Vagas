@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface JobRepository extends JpaRepository<JobEntity, UUID> {
 
-    List<JobEntity> findByDescriptionContaining(String filter); //Select * from job where description like %filter% (Procurar a description em qualquer lugar)
+    List<JobEntity> findByDescriptionContainingIgnoreCase(String filter); //Select * from job where description like %filter% (Procurar a description em qualquer lugar)
 
 }
