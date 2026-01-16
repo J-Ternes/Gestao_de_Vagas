@@ -1,5 +1,6 @@
 package com.jonathan.Gestao_Vagas.modules.company.entities;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,10 +24,13 @@ public class JobEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Schema(example = "Vaga para NodeJs")
     private String description;
+    @Schema(example = "GymPass, VR, VA, Dayoff, Plano de Saúde apartamento")
     private String beneficios;
 
     @NotBlank(message = "Esse campo é obrigatório!")
+    @Schema(example = "Senior")
     private String level;
 
     @ManyToOne() //Tipo de relacionamento: Muitos Jobs para uma empresa

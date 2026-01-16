@@ -75,7 +75,7 @@ public class CandidateController {
         })
         @SecurityRequirement(name = "jwt_auth") //Adicionando a camada de segurança construída no Aplication.java
         public List<JobEntity> findJobNyFilter(@RequestParam String filter){
-            return this.listAllJobsByFilterUseCase.execute(filter);
+            return this.listAllJobsByFilterUseCase.execute(filter); //Realiza uma busca utilizando um filtro
         }
 
 

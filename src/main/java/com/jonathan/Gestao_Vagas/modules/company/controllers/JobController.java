@@ -4,6 +4,14 @@ package com.jonathan.Gestao_Vagas.modules.company.controllers;
 import com.jonathan.Gestao_Vagas.modules.company.UseCase.CreateJobUseCase;
 import com.jonathan.Gestao_Vagas.modules.company.dto.CreateJobDTO;
 import com.jonathan.Gestao_Vagas.modules.company.entities.JobEntity;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +32,14 @@ public class JobController {
 
     @PostMapping("/")
     @PreAuthorize("hasRole('COMPANY')") //apenas quem tem a role company poderá acessar (Usa-se uppercase por padrao)
+    @Tag(name = "Vagas", description = "Informações das vagas")
+    @Operation(summary = "Cadastro de vagas", description = "Essa função é responsável por cadastrar as vagas dentro da empresa")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = JobEntity.class))
+            })
+    })
+    @SecurityRequirement(name = "jwt_auth") //Adicionando a camada de segurança construída no Aplication.java
     public JobEntity create(@Valid @RequestBody CreateJobDTO createJobDTO, HttpServletRequest request){
         var idCompany = request.getAttribute("companyId");
         //jobEntity.setCompanyId(UUID.fromString(idCompany.toString()));
