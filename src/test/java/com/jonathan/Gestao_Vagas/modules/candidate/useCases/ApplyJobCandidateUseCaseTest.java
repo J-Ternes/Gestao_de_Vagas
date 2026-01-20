@@ -4,7 +4,7 @@ import com.jonathan.Gestao_Vagas.exceptions.JobNotFoundException;
 import com.jonathan.Gestao_Vagas.exceptions.UserNotFoundException;
 import com.jonathan.Gestao_Vagas.modules.candidates.controllers.CandidateRepository;
 import com.jonathan.Gestao_Vagas.modules.candidates.entities.CandidateEntity;
-import com.jonathan.Gestao_Vagas.modules.candidates.useCases.AplyJobCandidateUseCase;
+import com.jonathan.Gestao_Vagas.modules.candidates.useCases.ApplyJobCandidateUseCase;
 import com.jonathan.Gestao_Vagas.modules.company.repositories.JobRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +21,10 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-public class AplyJobCandidateUseCaseTest {
+public class ApplyJobCandidateUseCaseTest {
 
     @InjectMocks //O mockito realiza uma simulação
-    private AplyJobCandidateUseCase aplyJobCandidateUseCase;
+    private ApplyJobCandidateUseCase applyJobCandidateUseCase;
 
     @Mock
     private CandidateRepository candidateRepository;
@@ -36,7 +36,7 @@ public class AplyJobCandidateUseCaseTest {
     @DisplayName("Should not be able to aply job with candidate not found")
     public void should_not_be_able_to_aply_job_with_candidate_not_found(){
         try{
-            aplyJobCandidateUseCase.execute(null,null);
+            applyJobCandidateUseCase.execute(null,null);
         } catch (Exception e) {
             assertThat(e).isInstanceOf(UserNotFoundException.class); //Para assegurar que a instancia passada seja essa
         }
@@ -52,7 +52,7 @@ public class AplyJobCandidateUseCaseTest {
         when(candidateRepository.findById(idCandidate)).thenReturn(Optional.of(candidade));
 
         try{
-            aplyJobCandidateUseCase.execute(idCandidate,null);
+            applyJobCandidateUseCase.execute(idCandidate,null);
         } catch (Exception e) {
             assertThat(e).isInstanceOf(JobNotFoundException.class); //Para assegurar que a instancia passada seja essa
         }
