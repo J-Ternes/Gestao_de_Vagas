@@ -107,7 +107,6 @@ public class CandidateController {
         @SecurityRequirement(name = "jwt_auth") //Adicionando a camada de segurança construída no Aplication.java
         public ResponseEntity<Object> applyJob(HttpServletRequest request, @RequestBody UUID idJob){
             var idCandidate = request.getAttribute("candidate_id");
-
             try{
                 var result = this.applyJobCandidateUseCase.execute(UUID.fromString(idCandidate.toString()),idJob);
                 return ResponseEntity.ok().body(result);
