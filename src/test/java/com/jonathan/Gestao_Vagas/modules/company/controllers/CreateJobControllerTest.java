@@ -1,6 +1,7 @@
 package com.jonathan.Gestao_Vagas.modules.company.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jonathan.Gestao_Vagas.exceptions.CompanyNotFoundException;
 import com.jonathan.Gestao_Vagas.modules.company.dto.CreateJobDTO;
 import com.jonathan.Gestao_Vagas.modules.company.entities.CompanyEntity;
 import com.jonathan.Gestao_Vagas.modules.company.repositories.CompanyRepository;
@@ -23,6 +24,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(SpringRunner.class)//simula um servidor
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) //Garante que rode numa porta randomica
 @ActiveProfiles("test") //Irá pegar o application-test.properties
@@ -35,6 +38,8 @@ public class CreateJobControllerTest {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+
 
     @Before
     public void setup(){
@@ -62,6 +67,24 @@ public class CreateJobControllerTest {
 
     }
 
+
+    @Test
+    public void should_not_be_able_to_create_a_new_job_if_company_not_found() throws Exception {
+        var createdJobDTO = CreateJobDTO.builder().benefits("Benefits_test").descriptions("description_test").level("level_Test").build();
+
+        try{
+             mvc.perform(MockMvcRequestBuilders.post("/company/job/").
+                             contentType(MediaType.APPLICATION_JSON)
+                            .content(TestUtils.objectToJSON(createdJobDTO)).
+                            header("Authorization",TestUtils.generateToken(UUID.randomUUID(),
+                                    "JAVAGAS_@123#")));
+
+        }catch(Exception e){
+            assertThat(e).isInstanceOf(CompanyNotFoundException.class);
+
+        }
+
+    }
 
 
 }

@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,18 +40,27 @@ public class JobController {
                     @Content(schema = @Schema(implementation = JobEntity.class))
             })
     })
+
     @SecurityRequirement(name = "jwt_auth") //Adicionando a camada de segurança construída no Aplication.java
-    public JobEntity create(@Valid @RequestBody CreateJobDTO createJobDTO, HttpServletRequest request){
+    public ResponseEntity<Object> create(@Valid @RequestBody CreateJobDTO createJobDTO, HttpServletRequest request){
         var idCompany = request.getAttribute("companyId");
         //jobEntity.setCompanyId(UUID.fromString(idCompany.toString()));
 
-        var jobEntity = JobEntity.builder().beneficios(createJobDTO.getBenefits())
-                .companyId(UUID.fromString(idCompany.toString()))
-                .description(createJobDTO.getDescriptions())
-                .level(createJobDTO.getLevel())
-                .build();
+        try{
+            var jobEntity = JobEntity.builder().beneficios(createJobDTO.getBenefits())
+                    .companyId(UUID.fromString(idCompany.toString()))
+                    .description(createJobDTO.getDescriptions())
+                    .level(createJobDTO.getLevel())
+                    .build();
 
-        return this.createJobUseCase.execute(jobEntity);
+            var result = this.createJobUseCase.execute(jobEntity);
+            return ResponseEntity.ok().body(result);
+
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e);
+
+        }
+
 
     }
 
