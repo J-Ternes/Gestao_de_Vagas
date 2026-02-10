@@ -7,7 +7,7 @@ COPY . .
 RUN apt-get install maven -y
 RUN mvn clean install
 
-FROM openjdk:24-jdk-slim
+FROM eclipse-temurin:24-jdk-slim
 EXPOSE 8080
 
 COPY --from=build /target/Gestao_Vagas-0.0.1.jar app.jar
