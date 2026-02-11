@@ -10,6 +10,6 @@ RUN mvn clean install
 FROM eclipse-temurin:21-jdk-jammy
 EXPOSE 8080
 
-COPY --from=build /target/Gestao_Vagas-0.0.1.jar app.jar
+COPY --from=build /app/target/Gestao_Vagas-0.0.1.jar app.jar
 
 ENTRYPOINT [ "java", "-jar", "app.jar" ]
