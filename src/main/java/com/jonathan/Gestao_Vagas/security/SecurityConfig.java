@@ -25,7 +25,7 @@ public class SecurityConfig {
             "/swagger-ui/**", //O ** significa: Tudo o que vier depois do /swagger-ui
             "/v3/api-docs/**",
             "/swagger-resource/**",
-            "/actuator/**"
+            "/actuator/**" //Permitindo todo o acesso a partir do /actuator
     };
 
 
