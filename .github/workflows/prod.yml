@@ -1,4 +1,4 @@
-name: Gestao de Vagas Aplications
+name: Gestao de Vagas Aplications 2
 
 on:
   push:
@@ -15,21 +15,3 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - name: Build project
-        run: mvn clean install
-      - name: Login docker
-        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-      - name: Build docker image
-        run: docker build -t devternes/gestao_vagas .
-      - name: Publish image
-        run: docker push devternes/gestao_vagas
-  deploy:
-    needs: build
-    runs-on: self-hosted
-    steps:
-      - name: Pull image docker hub
-        run: docker pull devternes/gestao_vagas:latest
-      - name: remove container
-        run: docker rm -f gestao-vagas
-      - name: Run docker container gestao-vagas
-        run: docker run -d -p 8080:8080 -e DATABASE_URL=${{secrets.DATABASE_URL}} -e DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}} -e DATABASE_USERNAME=${{secrets.DATABASE_USERNAME}} --name gestao-vagas devternes/gestao_vagas
