@@ -25,7 +25,7 @@ jobs:
         run: docker push devternes/gestao_vagas
   deploy:
     needs: build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
