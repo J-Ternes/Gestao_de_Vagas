@@ -5,6 +5,7 @@ Esta é uma aplicação Spring Boot que permite o gerenciamento de vagas de Recu
 - Java 17 ou superior
 - Maven
 - Banco de dados (Postgres)
+- Docker
 
 ## Configuração
 ### 1. Clone o repositório:
