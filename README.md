@@ -1,5 +1,11 @@
 # Aplicação de Gerenciamento de Vagas de RH
 Esta é uma aplicação Spring Boot que permite o gerenciamento de vagas de Recursos Humanos (RH).
+Neste projeto pude praticar os conceitos que estudei: 
+- APIRest
+- Gerenciamento de banco de dados Postgres via JDBC
+- Deploy com AWS (EC2 e RDS) e Render
+- GitHub Actions
+- Documentação com SWAGGER
  
 ## Requisitos
 - Java 17 ou superior
