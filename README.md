@@ -10,6 +10,7 @@ Esta é uma aplicação Spring Boot que permite o gerenciamento de vagas de Recu
 ### 1. Clone o repositório:
 '''bash
 git clone https://github.com/danileao/gestao_vagas_rocket.git 
+'''
 
 2.Configure o banco de dados editando o arquivo application.properties e fornecendo as configurações necessárias:
 ''' spring.datasource.url=jdbc:postgresql://localhost:5432/database
