@@ -1,12 +1,12 @@
-#Aplicação de Gerenciamento de Vagas de RH
+# Aplicação de Gerenciamento de Vagas de RH
 Esta é uma aplicação Spring Boot que permite o gerenciamento de vagas de Recursos Humanos (RH).
-
-##Requisitos
+ 
+## Requisitos
 - Java 17 ou superior
 - Maven
 - Banco de dados (Postgres)
 
-##Configuração
+## Configuração
 1.Clone o repositório:
 git clone https://github.com/danileao/gestao_vagas_rocket.git
 
